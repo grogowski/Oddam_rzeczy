@@ -20,6 +20,7 @@
                         <div class="form-label-group">
                             <form:input path="email" type="email" id="email" class="form-control"/>
                             <form:errors cssClass="error" path="email"/>
+                            <p class="error">${emailMessage}</p>
                             <label for="email">Adres e-mail</label>
                         </div>
                         <div class="form-label-group">
@@ -38,10 +39,11 @@
                             <label for="password">Hasło</label>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" id="repeatPassword" class="form-control" required>
-                            <p class="error">${errorMessage}</p>
+                            <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" required>
+                            <p class="error">${passwordsMessage}</p>
                             <label for="repeatPassword">Powtórz hasło</label>
                         </div>
+                        <form:hidden path="admin" value="false"/>
                         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Zarejestruj"/>
                     </form:form>
                 </div>
