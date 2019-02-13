@@ -17,12 +17,13 @@
                     <h5 class="card-title text-center">Logowanie</h5>
                     <form class="form-signin" method="post" action="/login">
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" required autofocus>
+                            <input type="email" id="inputEmail" name="email" class="form-control" required autofocus>
                             <label for="inputEmail">Adres e-mail</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" required>
+                            <input type="password" id="inputPassword" name="password" class="form-control" required>
+                            <p class="error">${errorText}</p>
                             <label for="inputPassword">Hasło</label>
                         </div>
                         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Zaloguj"/>

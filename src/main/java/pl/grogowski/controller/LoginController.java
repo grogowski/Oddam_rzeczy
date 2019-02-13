@@ -7,10 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import pl.grogowski.model.User;
 import pl.grogowski.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -30,9 +30,14 @@ public class LoginController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public String loginAction() {
-        return "zalogowano";
+    public String loginAction(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
+        User user=userService.login(email, password);
+        if (user==null) {
+            model.addAttribute("errorText", "Błędny login lub hasło");
+            return "login";
+        }
+        session.setAttribute("user", user);
+        return "index";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
