@@ -37,7 +37,10 @@ public class LoginController {
             return "login";
         }
         session.setAttribute("user", user);
-        return "index";
+        if (!user.getAdmin()) {
+            return "redirect: /user/main";
+        }
+        return "redirect: /admin/main";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
