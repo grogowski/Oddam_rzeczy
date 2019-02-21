@@ -8,41 +8,76 @@
     <title>Oddam rzeczy</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="/css/dashboard.css"/>
 </head>
 <body id="home">
 
 <nav id="main-nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
     <div class="container">
+        <a href="#home" class="navbar-brand">Witaj ${userName}</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <i class="fas fa-bars"></i>
         </button>
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#home">Strona Główna</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Zaloguj</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Załóż Konto</a>
+                    <a class="nav-link" href="/user/logout">Wyloguj</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div>
-    <div class="jumbotron mt-4 text-primary text-center">
+<div id="section1" class="jumbotron bg-light mt-4 text-primary text-center">
+    <div class="row justify-content-center">
         <p>
-            Masz w domu rzeczy, z którymi nie wiesz co zrobić?
+            Zacznij pomagać!
         </p>
-        <h3 class="heading">ODDAJ JE POTRZEBUJĄCYM</h3>
-        <h3 class="heading">-szybko i w zaufane ręce</h3>
-        <a href="/register" class="btn btn-primary">ZAŁÓŻ KONTO</a>
     </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="card border-0">
+                <div class="card-body bg-light">
+                    <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
+                    <div class="caption">
+                        <p class="display-4">5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card border-0">
+                <div class="card-body bg-light">
+                    <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
+                    <div class="caption">
+                        <p class="display-4">5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card border-0">
+                <div class="card-body bg-light">
+                    <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
+                    <div class="caption">
+                        <p class="display-4">5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4"><p class="text-dark">oddanych worków</p></div>
+        <div class="col-4"><p class="text-dark">wspartych organizacji</p></div>
+        <div class="col-4"><p class="text-dark">zorganizowanych zbórek</p></div>
+    </div>
+    <div class="row justify-content-around">
+        <a href="" class="btn btn-primary my-2">ODDAJ RZECZY</a>
+        <a href="" class="btn btn-primary my-2">ZORGANIZUJ ZBIÓRKĘ</a>
+    </div>
+
 </div>
 <div>
-    <div class="jumbotron my-0 py-0 bg-white text-center">
+    <div class="jumbotron mt-0 mb-5 py-0 bg-white text-center">
         <h3 class="heading mb-4">Wystarczą 4 proste kroki</h3>
         <div class="row">
             <div class="col-3">
@@ -68,22 +103,6 @@
                 <p>
                     Zamów kuriera
                 </p>
-            </div>
-        </div>
-    </div>
-</div>
-<div>
-    <div class="jumbotron my-0 py-4 text-center">
-        <h3 class="heading mb-4">Komu pomagamy?</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="p-5 mb-2 border rounded-circle text-center bg-primary text-white">FUNDACJOM</div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-5 mb-2 border rounded-circle text-center bg-primary text-white">ORGANIZACJOM POZARZĄDOWYM</div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-5 mb-2 border rounded-circle text-center bg-primary text-white">LOKALNYM ZBIÓRKOM</div>
             </div>
         </div>
     </div>
