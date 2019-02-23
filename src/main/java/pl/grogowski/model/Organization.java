@@ -15,6 +15,18 @@ public class Organization {
     @NotBlank
     private String name;
 
+    @NotBlank
+    @Column(name = "full_name")
+    private String fullName;
+
+    @ManyToOne
+    private Location location;
+
+    @ManyToOne
+    private Target target;
+
+    private Boolean active;
+
     public Long getId() {
         return id;
     }
@@ -27,7 +39,39 @@ public class Organization {
         return name;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Target getTarget() {
+        return target;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
