@@ -11,22 +11,7 @@
     <link rel="stylesheet" href="/css/dashboard.css"/>
 </head>
 <body id="home">
-
-<nav id="main-nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
-    <div class="container">
-        <a href="#home" class="navbar-brand">Witaj ${userName}</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/logout">Wyloguj</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<jsp:include page="logged_in_nav.jsp"/>
 <div id="section1" class="jumbotron bg-light mt-4 text-primary text-center">
     <div class="row justify-content-center">
         <p>

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 <body id="home">
-
 <nav id="main-nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
     <div class="container">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">

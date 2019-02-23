@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import pl.grogowski.model.User;
 import pl.grogowski.service.UserService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -20,5 +22,11 @@ public class UserController {
     public String adminDashboard(@SessionAttribute User user, Model model) {
         model.addAttribute("userName", user.getFirstName());
         return "user_dashboard";
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect: /";
     }
 }
