@@ -1,6 +1,7 @@
 package pl.grogowski.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +17,14 @@ public class Donation {
     @ManyToOne
     private Organization organization;
 
+    @ManyToOne
+    private User user;
+
     @ManyToMany
     private List<Category> categories;
 
     @Min(1)
+    @Max(10)
     private Integer bags;
 
     private LocalDateTime date;
@@ -38,6 +43,14 @@ public class Donation {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Category> getCategories() {
