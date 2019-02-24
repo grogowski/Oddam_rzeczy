@@ -1,0 +1,17 @@
+@media (min-width: 768px) {
+    #section1 .display-4 {
+        font-size: 3.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #section1 .display-4 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #section1 .display-4 {
+        font-size: 1.5rem;
+    }
+}

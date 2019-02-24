@@ -24,7 +24,7 @@
                 <div class="card-body bg-light">
                     <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
                     <div class="caption">
-                        <p class="display-4">5</p>
+                        <p class="display-4">${bagsTotal}</p>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="card-body bg-light">
                     <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
                     <div class="caption">
-                        <p class="display-4">5</p>
+                        <p class="display-4">${organizationsTotal}</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="card-body bg-light">
                     <img src="/images/blank.jpg" alt="" class="rounded-circle w-100">
                     <div class="caption">
-                        <p class="display-4">5</p>
+                        <p class="display-4">${collectionsTotal}</p>
                     </div>
                 </div>
             </div>
@@ -53,10 +53,10 @@
     <div class="row">
         <div class="col-4"><p class="text-dark">oddanych worków</p></div>
         <div class="col-4"><p class="text-dark">wspartych organizacji</p></div>
-        <div class="col-4"><p class="text-dark">zorganizowanych zbórek</p></div>
+        <div class="col-4"><p class="text-dark">zorganizowanych zbiórek</p></div>
     </div>
     <div class="row justify-content-around">
-        <a href="" class="btn btn-primary my-2">ODDAJ RZECZY</a>
+        <a href="/user/form1" class="btn btn-primary my-2">ODDAJ RZECZY</a>
         <a href="" class="btn btn-primary my-2">ZORGANIZUJ ZBIÓRKĘ</a>
     </div>
 
