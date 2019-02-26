@@ -47,12 +47,6 @@ public class UserController {
         return "user_dashboard";
     }
 
-    @RequestMapping(path = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect: /";
-    }
-
     @RequestMapping(path = "/form1", method = RequestMethod.GET)
     public String showForm1(@SessionAttribute User user, Model model) {
         model.addAttribute("userName", user.getFirstName());
@@ -155,6 +149,12 @@ public class UserController {
                                    @RequestParam String time) {
         donationService.saveNewDonation(user, categories, bags, organization, LocalDateTime.now());
         return "redirect: /user/main";
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect: /";
     }
 
 }

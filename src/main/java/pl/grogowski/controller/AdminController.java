@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.grogowski.service.UserService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -15,6 +17,22 @@ public class AdminController {
 
     @RequestMapping(path = "/main", method = RequestMethod.GET)
     public String adminDashboard() {
-        return "admin_main";
+        return "admin_dashboard";
+    }
+
+    @RequestMapping(path = "/edit", method = RequestMethod.GET)
+    public String adminEdit() {
+        return "edit_admin";
+    }
+
+    @RequestMapping(path = "/edit/password", method = RequestMethod.GET)
+    public String adminEditPassword() {
+        return "admin_password";
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect: /";
     }
 }
