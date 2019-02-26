@@ -51,7 +51,7 @@ public class LoginController {
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String registerAction(@Valid User user, BindingResult result, Model model, @RequestParam String repeatPassword) {
-        if (userService.userExists(user)) {
+        if (userService.userExists(user.getEmail())) {
             model.addAttribute("emailMessage", "Użytkownik o tym adresie email już istnieje");
             return "register";
         }

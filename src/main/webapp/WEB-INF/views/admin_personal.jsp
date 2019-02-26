@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Oddam rzeczy - zmiana hasła</title>
+    <title>Oddam rzeczy - edycja danych osobowych</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
@@ -15,23 +15,22 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Zmień hasło</h5>
-                    <form class="form-signin" method="post" action="/admin/edit/password">
+                    <h5 class="card-title text-center">Edycja danych osobowych</h5>
+                    <form class="form-signin" method="post" action="/admin/edit/personal">
                         <div class="form-label-group">
-                            <input name="oldPassword" type="password" id="oldPassword"id="password" class="form-control" required>
-                            <p class="error">${oldPasswordMessage}</p>
-                            <label for="oldPassword">Dotychczasowe hasło</label>
+                            <input name="firstName" type="text" id="firstName"id="password" class="form-control" value="${user.firstName}" required>
+                            <label for="firstName">Imię</label>
                         </div>
                         <div class="form-label-group">
-                            <input name="newPassword" type="password" id="newPassword" class="form-control" required>
-                            <label for="newPassword">Nowe hasło</label>
+                            <input name="lastName" type="text" id="lastName" class="form-control" value="${user.lastName}" required>
+                            <label for="lastName">Nazwisko</label>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" required>
-                            <p class="error">${passwordsMessage}</p>
-                            <label for="repeatPassword">Powtórz hasło</label>
+                            <input type="email" id="email" name="email" class="form-control" value="${user.email}" required>
+                            <p class="error">${emailMessage}</p>
+                            <label for="email">Adres e-mail</label>
                         </div>
-                        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Zmień hasło"/>
+                        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Aktualizuj dane"/>
                     </form>
                 </div>
             </div>

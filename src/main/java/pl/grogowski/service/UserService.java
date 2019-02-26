@@ -17,8 +17,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean userExists(User user) {
-        return userRepository.countByEmail(user.getEmail())==1;
+    public void updateUserPassword(User user, String newPassword) {
+        user.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+        userRepository.save(user);
+    }
+
+    public boolean userExists(String email) {
+        return userRepository.countByEmail(email)==1;
     }
 
     public User login(String email, String password) {
@@ -27,6 +32,10 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 
 }
