@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table (name = "users")
@@ -76,4 +77,5 @@ public class User {
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
+
 }

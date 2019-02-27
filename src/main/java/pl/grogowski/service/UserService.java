@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.grogowski.model.User;
 import pl.grogowski.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -38,4 +40,17 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User> getAdmins(User user) {
+        return userRepository.findAllAdminsExceptUser(user.getId());
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.delete(id);
+    }
+
+    public void takeAdmin(Long id) {
+        User user = userRepository.findOne(id);
+        user.setAdmin(false);
+        userRepository.save(user);
+    }
 }
