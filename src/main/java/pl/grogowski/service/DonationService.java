@@ -8,6 +8,7 @@ import pl.grogowski.model.Organization;
 import pl.grogowski.model.User;
 import pl.grogowski.repository.CategoryRepository;
 import pl.grogowski.repository.DonationRepository;
+import pl.grogowski.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class DonationService {
 
     @Autowired
     DonationRepository donationRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -47,5 +51,13 @@ public class DonationService {
         newDonation.setOrganization(organization);
         newDonation.setDate(date);
         donationRepository.save(newDonation);
+    }
+
+    public void setUserToNullInAllDonations(Long id) {
+        List<Donation> userDonations = donationRepository.findAllByUserId(id);
+        for (Donation d: userDonations) {
+            d.setUser(null);
+            donationRepository.save(d);
+        }
     }
 }

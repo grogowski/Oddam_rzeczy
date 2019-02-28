@@ -44,6 +44,10 @@ public class UserService {
         return userRepository.findAllAdminsExceptUser(user.getId());
     }
 
+    public List<User> getUsers() {
+        return userRepository.findAllByAdmin(false);
+    }
+
     public void deleteUser(Long id) {
         userRepository.delete(id);
     }
@@ -53,4 +57,10 @@ public class UserService {
         user.setAdmin(false);
         userRepository.save(user);
     }
+
+    public boolean userIdAdmin(Long id) {
+        User user = userRepository.findOne(id);
+        return user.getAdmin();
+    }
+
 }

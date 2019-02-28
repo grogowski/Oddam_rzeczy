@@ -6,10 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.grogowski.model.User;
+import pl.grogowski.service.DonationService;
 import pl.grogowski.service.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -17,6 +17,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DonationService donationService;
 
     @RequestMapping(path = "/main", method = RequestMethod.GET)
     public String adminDashboard() {
@@ -34,7 +37,7 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/edit/password", method = RequestMethod.POST)
-    public String adminChangePassword(@SessionAttribute User user,  @RequestParam String oldPassword,
+    public String adminChangePassword(@SessionAttribute User user, @RequestParam String oldPassword,
                                       @RequestParam String newPassword, @RequestParam String repeatPassword, Model model) {
         if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
             model.addAttribute("oldPasswordMessage", "Błędne hasło");
@@ -55,11 +58,11 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/edit/personal", method = RequestMethod.POST)
-    public String adminUpdatePersonalInfo(@SessionAttribute User user,  @RequestParam String firstName,
-                                      @RequestParam String lastName,  @RequestParam String email, Model model) {
+    public String adminUpdatePersonalInfo(@SessionAttribute User user, @RequestParam String firstName,
+                                          @RequestParam String lastName, @RequestParam String email, Model model) {
         if (!user.getEmail().equals(email)) {
             if (userService.userExists(email)) {
-                model.addAttribute("emailMessage", "Użytkownik o adresie email "+email+" już istnieje");
+                model.addAttribute("emailMessage", "Użytkownik o adresie email " + email + " już istnieje");
                 return "admin_personal";
             }
             user.setEmail(email);
@@ -76,21 +79,31 @@ public class AdminController {
 
     @RequestMapping(path = "/admins", method = RequestMethod.GET)
     public String adminsPage(@SessionAttribute User user, Model model) {
-        model.addAttribute("user", user);
         model.addAttribute("admins", userService.getAdmins(user));
         return "admins";
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
     public String deleteAdmin(@PathVariable Long id) {
+        boolean isAdmin = userService.userIdAdmin(id);
+        donationService.setUserToNullInAllDonations(id);
         userService.deleteUser(id);
-        return "redirect: /admin/admins";
+        if (isAdmin) {
+            return "redirect: /admin/admins";
+        }
+        return "redirect: /admin/users";
     }
 
     @RequestMapping(path = "/take_admin_privileges/{id}", method = RequestMethod.GET)
     public String takeAdmin(@PathVariable Long id) {
         userService.takeAdmin(id);
         return "redirect: /admin/admins";
+    }
+
+    @RequestMapping(path = "/users", method = RequestMethod.GET)
+    public String usersPage(Model model) {
+        model.addAttribute("users", userService.getUsers());
+        return "users";
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
