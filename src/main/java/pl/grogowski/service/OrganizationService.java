@@ -36,22 +36,33 @@ public class OrganizationService {
     }
 
     public List<Organization> getMatchingOrganizationsByLocationAndTarget(Long locationId, Long targetId) {
-        return organizationRepository.findAllByLocation_IdAndTarget_Id(locationId, targetId);
+        return organizationRepository.findAllByLocation_IdAndTarget_IdAndActive(locationId, targetId, true);
     }
 
     public List<Organization> getMatchingOrganizationsByLocation(Long locationId) {
-        return organizationRepository.findAllByLocation_Id(locationId);
+        return organizationRepository.findAllByLocation_IdAndActive(locationId, true);
     }
 
     public List<Organization> getMatchingOrganizationsByTarget(Long targetId) {
-        return organizationRepository.findAllByTarget_Id(targetId);
+        return organizationRepository.findAllByTarget_IdAndActive(targetId, true);
     }
 
-    public List<Organization> getSomeOrganizations() {
+    public List<Organization> getOrganizations() {
         return organizationRepository.findAll();
     }
 
     public Organization getOrganizationById(Long id) {
         return organizationRepository.findOne(id);
+    }
+
+    public void changeOrganizationStatus(Long id, boolean newStatus) {
+        Organization organization = organizationRepository.findOne(id);
+        organization.setActive(newStatus);
+        organizationRepository.save(organization);
+
+    }
+
+    public void saveOrganization(Organization organization) {
+        organizationRepository.save(organization);
     }
 }

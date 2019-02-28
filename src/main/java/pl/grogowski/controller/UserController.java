@@ -118,7 +118,7 @@ public class UserController {
                 model.addAttribute("organizations", matched);
             }
         }
-        model.addAttribute("organizations", organizationService.getSomeOrganizations());
+        model.addAttribute("organizations", organizationService.getOrganizations());
         return "form3b";
     }
 

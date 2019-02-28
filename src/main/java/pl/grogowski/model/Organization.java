@@ -1,8 +1,8 @@
 package pl.grogowski.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table (name = "organizations")
@@ -12,16 +12,17 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Size(min=10, max=250)
     private String name;
 
-    @NotBlank
-    @Column(name = "full_name")
-    private String fullName;
+    @Size(min=10, max=250)
+    private String address;
 
+    @NotNull
     @ManyToOne
     private Location location;
 
+    @NotNull
     @ManyToOne
     private Target target;
 
@@ -39,16 +40,16 @@ public class Organization {
         return name;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Location getLocation() {

@@ -4,12 +4,19 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.grogowski.model.Organization;
 import pl.grogowski.model.User;
+import pl.grogowski.repository.LocationRepository;
+import pl.grogowski.repository.TargetRepository;
 import pl.grogowski.service.DonationService;
+import pl.grogowski.service.OrganizationService;
 import pl.grogowski.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.Validator;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,6 +27,18 @@ public class AdminController {
 
     @Autowired
     DonationService donationService;
+
+    @Autowired
+    OrganizationService organizationService;
+
+    @Autowired
+    TargetRepository targetRepository;
+
+    @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
+    Validator validator;
 
     @RequestMapping(path = "/main", method = RequestMethod.GET)
     public String adminDashboard() {
@@ -104,6 +123,58 @@ public class AdminController {
     public String usersPage(Model model) {
         model.addAttribute("users", userService.getUsers());
         return "users";
+    }
+
+    @RequestMapping(path = "/organizations", method = RequestMethod.GET)
+    public String organizationsPage(Model model) {
+        model.addAttribute("organizations", organizationService.getOrganizations() );
+        return "organizations";
+    }
+
+    @RequestMapping(path = "/deactivate_organization/{id}", method = RequestMethod.GET)
+    public String deactivateOrganization(@PathVariable Long id) {
+        organizationService.changeOrganizationStatus(id, false);
+        return "redirect: /admin/organizations";
+    }
+
+    @RequestMapping(path = "/activate_organization/{id}", method = RequestMethod.GET)
+    public String activateOrganization(@PathVariable Long id) {
+        organizationService.changeOrganizationStatus(id, true);
+        return "redirect: /admin/organizations";
+    }
+
+    @RequestMapping(path = "/new_organization", method = RequestMethod.GET)
+    public String createOrganization(Model model) {
+        model.addAttribute("organization", new Organization());
+        model.addAttribute("targets", targetRepository.findAll());
+        model.addAttribute("locations", locationRepository.findAll());
+        return "new_organization_form";
+    }
+
+    @RequestMapping(path = "/new_organization", method = RequestMethod.POST)
+    public String saveOrganization(@Valid Organization organization, BindingResult result) {
+        if (result.hasErrors()) {
+            return "new_organization_form";
+        }
+        organizationService.saveOrganization(organization);
+        return "redirect: /admin/organizations";
+    }
+
+    @RequestMapping(path = "/edit_organization/{id}", method = RequestMethod.GET)
+    public String editOrganization(@PathVariable Long id, Model model) {
+        model.addAttribute("organization", organizationService.getOrganizationById(id));
+        model.addAttribute("targets", targetRepository.findAll());
+        model.addAttribute("locations", locationRepository.findAll());
+        return "edit_organization_form";
+    }
+
+    @RequestMapping(path = "/edit_organization/{id}", method = RequestMethod.POST)
+    public String saveEditedOrganization(@Valid Organization organization, BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit_organization_form";
+        }
+        organizationService.saveOrganization(organization);
+        return "redirect: /admin/organizations";
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
