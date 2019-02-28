@@ -58,7 +58,7 @@
                 <div class="form-check">
                     <label class="form-check-label mr-2">
                         <input class="form-check-input" type="radio" name="organization"
-                               value="${organization.id}">${organization.fullName}
+                               value="${organization.id}">${organization.name}
                     </label>
                 </div>
             </c:forEach>

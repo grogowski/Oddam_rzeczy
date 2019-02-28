@@ -9,7 +9,6 @@
     <title>Oddam rzeczy</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <link rel="stylesheet" href="/css/dashboard.css"/>
 </head>
 <body id="home">
 <jsp:include page="admin_nav.jsp"/>
