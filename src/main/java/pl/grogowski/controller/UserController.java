@@ -1,5 +1,6 @@
 package pl.grogowski.controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,65 @@ public class UserController {
         model.addAttribute("collectionsTotal", 0);
         return "user_dashboard";
     }
+
+    @RequestMapping(path = "/edit", method = RequestMethod.GET)
+    public String userEdit(@SessionAttribute User user, Model model) {
+        model.addAttribute("userName", user.getFirstName());
+        return "edit_user";
+    }
+
+    @RequestMapping(path = "/edit/password", method = RequestMethod.GET)
+    public String adminEditPasswordForm(@SessionAttribute User user, Model model) {
+        model.addAttribute("userName", user.getFirstName());
+        return "user_password";
+    }
+
+    @RequestMapping(path = "/edit/password", method = RequestMethod.POST)
+    public String adminChangePassword(@SessionAttribute User user, @RequestParam String oldPassword,
+                                      @RequestParam String newPassword, @RequestParam String repeatPassword, Model model) {
+        if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
+            model.addAttribute("oldPasswordMessage", "Błędne hasło");
+            model.addAttribute("userName", user.getFirstName());
+            return "user_password";
+        }
+        if (!newPassword.equals(repeatPassword)) {
+            model.addAttribute("passwordsMessage", "Hasło i powtórzone hasło muszą być być takie same");
+            model.addAttribute("userName", user.getFirstName());
+            return "user_password";
+        }
+        userService.updateUserPassword(user, newPassword);
+        return "redirect: /user/main";
+    }
+
+    @RequestMapping(path = "/edit/personal", method = RequestMethod.GET)
+    public String adminEditPersonalForm(@SessionAttribute User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("userName", user.getFirstName());
+        return "user_personal";
+    }
+
+    @RequestMapping(path = "/edit/personal", method = RequestMethod.POST)
+    public String adminUpdatePersonalInfo(@SessionAttribute User user, @RequestParam String firstName,
+                                          @RequestParam String lastName, @RequestParam String email, Model model) {
+        if (!user.getEmail().equals(email)) {
+            if (userService.userExists(email)) {
+                model.addAttribute("emailMessage", "Użytkownik o adresie email " + email + " już istnieje");
+                model.addAttribute("user", user);
+                model.addAttribute("userName", user.getFirstName());
+                return "user_personal";
+            }
+            user.setEmail(email);
+        }
+        if (!user.getFirstName().equals(firstName)) {
+            user.setFirstName(firstName);
+        }
+        if (!user.getLastName().equals(lastName)) {
+            user.setLastName(lastName);
+        }
+        userService.saveUser(user);
+        return "redirect: /user/main";
+    }
+
 
     @RequestMapping(path = "/form1", method = RequestMethod.GET)
     public String showForm1(@SessionAttribute User user, Model model) {

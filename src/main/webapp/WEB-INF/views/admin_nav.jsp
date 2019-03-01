@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav id="main-nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
     <div class="container">
-        <a href="#home" class="navbar-brand">Panel Admina</a>
+        <a href="/admin/main" class="navbar-brand">Panel Admina</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <i class="fas fa-bars"></i>
         </button>
