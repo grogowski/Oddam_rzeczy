@@ -49,7 +49,7 @@
     </div>
 </div>
 <div class="jumbotron bg-primary text-white pt-3 pb-2 mb-2">
-    <h6>Kurier może odebrać od Ciebie rzeczy w dni robocze (pn-pt) w godzinach 9:00-19:00.</h6>
+    <h6>Kurier może odebrać od Ciebie rzeczy w dni robocze (pn-pt) w godzinach 8:00-18:00.</h6>
 </div>
 <div id="form-section" class="container">
     <form action="/user/form4" method="post">
@@ -96,6 +96,7 @@
                 </span>
             </div>
             <input type="date" class="form-control" name="date" required>
+            <p class="text-danger">${dateMessage}</p>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">
@@ -104,6 +105,7 @@
                 </span>
             </div>
             <input type="text" class="form-control" name="time" required>
+            <p class="text-danger">${timeMessage}</p>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">

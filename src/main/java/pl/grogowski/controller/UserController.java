@@ -16,8 +16,11 @@ import pl.grogowski.repository.TargetRepository;
 import pl.grogowski.service.DonationService;
 import pl.grogowski.service.OrganizationService;
 import pl.grogowski.service.UserService;
+import pl.grogowski.util.UtilityClass;
 
 import javax.servlet.http.HttpSession;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,25 +193,23 @@ public class UserController {
                                    @RequestParam String zip, @RequestParam String phone,
                                    @RequestParam String remarks, @RequestParam String date,
                                    @RequestParam String time) {
-        String address = street.trim()+", "+zip.trim()+" "+city.trim() + " tel. "+phone.trim();
-        session.setAttribute("address", address);
-        String datetime = time.trim() + " " + date.trim();
-        session.setAttribute("datetime", datetime);
-        session.setAttribute("remarks", remarks);
-        String donatedStuff;
-        if (bags == 1) {
-            donatedStuff = bags+ " worek:";
-        } else if (bags<5) {
-            donatedStuff = bags + " worki:";
-        } else {
-            donatedStuff = bags + " worków:";
+        if (LocalDate.parse(date).minusDays(2).isBefore(LocalDate.now())||LocalDate.parse(date).getDayOfWeek().equals(DayOfWeek.SUNDAY)||LocalDate.parse(date).getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+            model.addAttribute("dateMessage", "Data odebrania musi być dniem roboczym, minimum 2 dni od daty bieżącej");
+            return  "form4";
         }
+        if (!time.trim().matches("((0)?[8-9]|1[0-7]):[0-5][0-9]")) {
+            model.addAttribute("timeMessage", "Czas musi być w formacie 24h gg:mm, w przedziale 08:00-17:59");
+            return "form4";
+        }
+        session.setAttribute("address", UtilityClass.mergeAddress(street, city, zip, phone));
+        session.setAttribute("datetime", UtilityClass.merdeDateTime(time, date));
+        session.setAttribute("remarks", remarks);
         List<String> donatedCategories = new ArrayList<>();
         for (Long id:categories) {
             donatedCategories.add(categoryRepository.findOne(id).getName());
         }
         model.addAttribute("donatedCategories", donatedCategories);
-        model.addAttribute("donated", donatedStuff);
+        model.addAttribute("donated", UtilityClass.getTextBasedOnNumberOfBags(bags));
         return "donation_summary";
     }
 
