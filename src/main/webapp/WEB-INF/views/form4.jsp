@@ -61,7 +61,7 @@
                   Ulica:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="street">
+                <input type="text" class="form-control" name="street" required>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -69,7 +69,7 @@
                   Miasto:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="city">
+                <input type="text" class="form-control" name="city" required>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -77,7 +77,7 @@
                   Kod pocztowy:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="zip">
+                <input type="text" class="form-control" name="zip" required>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -85,7 +85,7 @@
                   Telefon:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="phone">
+                <input type="text" class="form-control" name="phone" required>
             </div>
         </div>
         <h5>Termin odbioru</h5>
@@ -95,7 +95,7 @@
                   Data:
                 </span>
             </div>
-            <input type="date" class="form-control" name="date">
+            <input type="date" class="form-control" name="date" required>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">
@@ -103,7 +103,7 @@
                   Godzina:
                 </span>
             </div>
-            <input type="text" class="form-control" name="time">
+            <input type="text" class="form-control" name="time" required>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">

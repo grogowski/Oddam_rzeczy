@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import pl.grogowski.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,7 +43,6 @@ public class UserController {
 
     @RequestMapping(path = "/main", method = RequestMethod.GET)
     public String adminDashboard(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
         model.addAttribute("bagsTotal", donationService.getTotalNumberOfDonatedBags(user));
         model.addAttribute("organizationsTotal", donationService.getSupportedOrganizationsNumber(user));
         model.addAttribute("collectionsTotal", 0);
@@ -49,14 +50,12 @@ public class UserController {
     }
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
-    public String userEdit(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String userEdit() {
         return "edit_user";
     }
 
     @RequestMapping(path = "/edit/password", method = RequestMethod.GET)
-    public String adminEditPasswordForm(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String adminEditPasswordForm() {
         return "user_password";
     }
 
@@ -65,12 +64,10 @@ public class UserController {
                                       @RequestParam String newPassword, @RequestParam String repeatPassword, Model model) {
         if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
             model.addAttribute("oldPasswordMessage", "Błędne hasło");
-            model.addAttribute("userName", user.getFirstName());
             return "user_password";
         }
         if (!newPassword.equals(repeatPassword)) {
             model.addAttribute("passwordsMessage", "Hasło i powtórzone hasło muszą być być takie same");
-            model.addAttribute("userName", user.getFirstName());
             return "user_password";
         }
         userService.updateUserPassword(user, newPassword);
@@ -80,7 +77,6 @@ public class UserController {
     @RequestMapping(path = "/edit/personal", method = RequestMethod.GET)
     public String adminEditPersonalForm(@SessionAttribute User user, Model model) {
         model.addAttribute("user", user);
-        model.addAttribute("userName", user.getFirstName());
         return "user_personal";
     }
 
@@ -91,7 +87,6 @@ public class UserController {
             if (userService.userExists(email)) {
                 model.addAttribute("emailMessage", "Użytkownik o adresie email " + email + " już istnieje");
                 model.addAttribute("user", user);
-                model.addAttribute("userName", user.getFirstName());
                 return "user_personal";
             }
             user.setEmail(email);
@@ -108,52 +103,44 @@ public class UserController {
 
 
     @RequestMapping(path = "/form1", method = RequestMethod.GET)
-    public String showForm1(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String showForm1(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
         return "form1";
     }
 
     @RequestMapping(path = "/form1", method = RequestMethod.POST)
-    public String collectDataForm1(@SessionAttribute User user, @RequestParam (required = false) List<Long> categories, Model model, HttpSession session) {
+    public String collectDataForm1(@RequestParam (required = false) List<Long> categories, HttpSession session) {
         if (categories==null) {
             return "redirect: /user/form1";
         }
-        model.addAttribute("userName", user.getFirstName());
         session.setAttribute("categories", categories);
         return "form2";
     }
 
     @RequestMapping(path = "/form2", method = RequestMethod.GET)
-    public String showForm2(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String showForm2() {
         return "form2";
     }
 
     @RequestMapping(path = "/form2", method = RequestMethod.POST)
-    public String collectDataForm2(@SessionAttribute User user, @RequestParam Integer bags, Model model, HttpSession session) {
+    public String collectDataForm2(@RequestParam Integer bags, HttpSession session) {
         session.setAttribute("bags", bags);
-        model.addAttribute("userName", user.getFirstName());
-        model.addAttribute("locations", organizationService.getLocationsOfActiveOrganizations());
-        model.addAttribute("targets", targetRepository.findAll());
-        return "form3a";
+        return "redirect: /user/form3a";
     }
 
     @RequestMapping(path = "/form3a", method = RequestMethod.GET)
-    public String showForm3a(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String showForm3a(Model model) {
         model.addAttribute("locations", organizationService.getLocationsOfActiveOrganizations());
         model.addAttribute("targets", targetRepository.findAll());
         return "form3a";
     }
 
     @RequestMapping(path = "/form3a", method = RequestMethod.POST)
-    public String collectDataForm3a(@SessionAttribute User user, @RequestParam Long location, @RequestParam Long target, @RequestParam(required = false) String name, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String collectDataForm3a( @RequestParam Long location, @RequestParam Long target, @RequestParam String name, Model model) {
         if (location == 0 && target == 0 && name == null) {
             return "redirect: /user/form3a";
         }
-        if (name!=null) {
+        if (!name.isEmpty()) {
             List<Organization> matchedByName = organizationService.getMatchingOrganizationsByName(name);
             if (matchedByName!=null) {
                 model.addAttribute("organizations", matchedByName);
@@ -164,18 +151,21 @@ public class UserController {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocationAndTarget(location, target);
             if (!matched.isEmpty()) {
                 model.addAttribute("organizations", matched);
+                return "form3b";
             }
         }
         if (location!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocation(location);
             if (!matched.isEmpty()) {
                 model.addAttribute("organizations", matched);
+                return "form3b";
             }
         }
         if (target!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByTarget(target);
             if (!matched.isEmpty()) {
                 model.addAttribute("organizations", matched);
+                return "form3b";
             }
         }
         model.addAttribute("organizations", organizationService.getOrganizations());
@@ -183,31 +173,55 @@ public class UserController {
     }
 
     @RequestMapping(path = "/form3b", method = RequestMethod.POST)
-    public String collectDataForm3b(@SessionAttribute User user, @RequestParam Long organization, Model model, HttpSession session) {
+    public String collectDataForm3b(@RequestParam Long organization, HttpSession session) {
         session.setAttribute("organization", organizationService.getOrganizationById(organization));
-        model.addAttribute("userName", user.getFirstName());
-        return "form4";
+        return "redirect: /user/form4";
     }
 
     @RequestMapping(path = "/form4", method = RequestMethod.GET)
-    public String showForm4(@SessionAttribute User user, Model model) {
-        model.addAttribute("userName", user.getFirstName());
+    public String showForm4() {
         return "form4";
     }
 
     @RequestMapping(path = "/form4", method = RequestMethod.POST)
-    public String collectDataForm4(@SessionAttribute User user,
-                                   @SessionAttribute List<Long> categories,
-                                   @SessionAttribute Integer bags,
-                                   @SessionAttribute Organization organization,
-                                   @RequestParam String street,
-                                   @RequestParam String city,
-                                   @RequestParam String zip,
-                                   @RequestParam String phone,
-                                   @RequestParam String remarks,
-                                   @RequestParam String date,
+    public String collectDataForm4(@SessionAttribute Integer bags, @SessionAttribute List<Long> categories,
+                                   Model model, HttpSession session,
+                                   @RequestParam String street, @RequestParam String city,
+                                   @RequestParam String zip, @RequestParam String phone,
+                                   @RequestParam String remarks, @RequestParam String date,
                                    @RequestParam String time) {
+        String address = street.trim()+", "+zip.trim()+" "+city.trim() + " tel. "+phone.trim();
+        session.setAttribute("address", address);
+        String datetime = time.trim() + " " + date.trim();
+        session.setAttribute("datetime", datetime);
+        session.setAttribute("remarks", remarks);
+        String donatedStuff;
+        if (bags == 1) {
+            donatedStuff = bags+ " worek:";
+        } else if (bags<5) {
+            donatedStuff = bags + " worki:";
+        } else {
+            donatedStuff = bags + " worków:";
+        }
+        List<String> donatedCategories = new ArrayList<>();
+        for (Long id:categories) {
+            donatedCategories.add(categoryRepository.findOne(id).getName());
+        }
+        model.addAttribute("donatedCategories", donatedCategories);
+        model.addAttribute("donated", donatedStuff);
+        return "donation_summary";
+    }
+
+    @RequestMapping(path = "/donate", method = RequestMethod.GET)
+    public String saveDonation(@SessionAttribute User user, @SessionAttribute List<Long> categories,
+                               @SessionAttribute Integer bags, @SessionAttribute Organization organization, HttpSession session) {
         donationService.saveNewDonation(user, categories, bags, organization, LocalDateTime.now());
+        session.removeAttribute("categories");
+        session.removeAttribute("bags");
+        session.removeAttribute("organization");
+        session.removeAttribute("address");
+        session.removeAttribute("datetime");
+        session.removeAttribute("remarks");
         return "redirect: /user/main";
     }
 

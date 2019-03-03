@@ -12,7 +12,7 @@
 </head>
 <body id="home">
 <jsp:include page="logged_in_nav.jsp"/>
-<div id="section1" class="jumbotron bg-light mt-4 text-primary text-center">
+<div id="section1" class="jumbotron mt-4 bg-light text-primary text-center">
     <div class="row justify-content-center">
         <p>
             Zacznij pomagać!
