@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "locations")
-public class Location {
+public class Location implements Comparable<Location>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +45,10 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public int compareTo(Location location) {
+        return this.getName().compareTo(location.getName());
     }
 }

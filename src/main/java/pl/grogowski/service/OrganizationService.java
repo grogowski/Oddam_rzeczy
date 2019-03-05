@@ -16,7 +16,7 @@ public class OrganizationService {
     OrganizationRepository organizationRepository;
 
     public List<Location> getLocationsOfActiveOrganizations() {
-        return organizationRepository.queryGetLocationsOfActiveOrganizations();
+        return new ArrayList<>(organizationRepository.queryGetLocationsOfActiveOrganizations());
     }
 
     public List<Organization> getMatchingOrganizationsByName(String name) {

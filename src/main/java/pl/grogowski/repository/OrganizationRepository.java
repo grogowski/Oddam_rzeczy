@@ -6,6 +6,7 @@ import pl.grogowski.model.Location;
 import pl.grogowski.model.Organization;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
 
@@ -16,6 +17,6 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     List<Organization> findAllByTarget_IdAndActive(Long targetId, Boolean active);
 
     @Query("select distinct o.location from Organization o where o.active = true")
-    List<Location> queryGetLocationsOfActiveOrganizations();
+    TreeSet<Location> queryGetLocationsOfActiveOrganizations();
 
 }
