@@ -60,4 +60,8 @@ public class DonationService {
             donationRepository.save(d);
         }
     }
+
+    public Object getUserDonations(User user) {
+        return donationRepository.findAllByUser(user);
+    }
 }

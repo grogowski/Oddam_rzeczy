@@ -14,6 +14,9 @@
                     <a class="nav-link" href="/user/edit">Edytuj profil</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/user/donations">Twoje darowizny</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/user/logout">Wyloguj</a>
                 </li>
             </ul>

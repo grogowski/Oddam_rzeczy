@@ -20,7 +20,7 @@ public class Donation {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Category> categories;
 
     @Min(1)
@@ -75,5 +75,9 @@ public class Donation {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public String getStringDate() {
+        return date.toLocalDate().toString();
     }
 }

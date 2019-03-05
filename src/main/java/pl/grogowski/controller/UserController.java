@@ -4,7 +4,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -224,6 +223,12 @@ public class UserController {
         session.removeAttribute("datetime");
         session.removeAttribute("remarks");
         return "redirect: /user/main";
+    }
+
+    @RequestMapping(path = "/donations", method = RequestMethod.GET)
+    public String showUserDonations(@SessionAttribute User user, Model model) {
+        model.addAttribute("donations", donationService.getUserDonations(user));
+        return "donations";
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
