@@ -31,7 +31,7 @@ public class DonationService {
     }
 
     public Integer getTotalNumberOfDonatedBags(User user) {
-        List<Donation> userDonations = donationRepository.findAllByUser(user);
+        List<Donation> userDonations = donationRepository.findAllByUserAndWasCollected(user, true);
         Integer totalBags = 0;
         for (Donation d:userDonations) {
             totalBags+=d.getBags();
@@ -39,17 +39,20 @@ public class DonationService {
         return totalBags;
     }
 
-    public void saveNewDonation(User user, List<Long> categories, Integer bags, Organization organization, LocalDateTime date) {
+    public void saveNewDonation(User user, List<Long> categories, Integer bags,
+                                Organization organization, LocalDateTime created, LocalDateTime collected) {
         Donation newDonation = new Donation();
         newDonation.setUser(user);
         newDonation.setBags(bags);
+        newDonation.setWasCollected(false);
+        newDonation.setCollected(collected);
         List<Category> categoryList = new ArrayList<>();
         for (Long l:categories) {
             categoryList.add(categoryRepository.findOne(l));
         }
         newDonation.setCategories(categoryList);
         newDonation.setOrganization(organization);
-        newDonation.setDate(date);
+        newDonation.setCreated(created);
         donationRepository.save(newDonation);
     }
 
@@ -62,6 +65,14 @@ public class DonationService {
     }
 
     public Object getUserDonations(User user) {
-        return donationRepository.findAllByUser(user);
+        return donationRepository.findAllByUserOrderByWasCollectedAsc(user);
+    }
+
+    public Donation getDonation(Long donationId) {
+        return donationRepository.findOne(donationId);
+    }
+
+    public void saveDonation(Donation toBeArchived) {
+        donationRepository.save(toBeArchived);
     }
 }

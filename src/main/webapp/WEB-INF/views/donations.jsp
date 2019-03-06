@@ -20,7 +20,8 @@
                 <th>Organizacja</th>
                 <th>Liczba worków</th>
                 <th>Przedmiot darowizny</th>
-                <th>Data</th>
+                <th>Data przekazania kurierowi</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -29,7 +30,15 @@
                     <td>${donation.organization.name}</td>
                     <td>${donation.bags}</td>
                     <td><c:forEach var="category" items="${donation.categories}">${category.name}, </c:forEach></td>
-                    <td>${donation.stringDate}</td>
+                    <td>
+                        <c:if test="${donation.wasCollected == true}">${donation.stringCollected}</c:if>
+                        <c:if test="${donation.wasCollected == false}">${donation.stringCollected} (oczekuje na przekazanie)</c:if>
+                    </td>
+                    <td>
+                        <c:if test="${donation.wasCollected == false}">
+                            <a href="/user/collect/${donation.id}" class="btn btn-primary">Oznacz jako przekazane</a>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

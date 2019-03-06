@@ -4,10 +4,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+import pl.grogowski.model.Donation;
 import pl.grogowski.model.Organization;
 import pl.grogowski.model.User;
 import pl.grogowski.repository.CategoryRepository;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,13 +195,14 @@ public class UserController {
             model.addAttribute("dateMessage", "Data odebrania musi być dniem roboczym, minimum 2 dni od daty bieżącej");
             return  "form4";
         }
-        if (!time.trim().matches("((0)?[8-9]|1[0-7]):[0-5][0-9]")) {
+        if (!time.trim().matches("((0)?[8-9]|1[0-7]):[0-5][0-9]|18:00")) {
             model.addAttribute("timeMessage", "Czas musi być w formacie 24h gg:mm, w przedziale 08:00-17:59");
             return "form4";
         }
         session.setAttribute("address", UtilityClass.mergeAddress(street, city, zip, phone));
-        session.setAttribute("datetime", UtilityClass.merdeDateTime(time, date));
+        session.setAttribute("datetime", UtilityClass.mergeDateTime(time, date));
         session.setAttribute("remarks", remarks);
+        session.setAttribute("collected", LocalDateTime.of(LocalDate.parse(date), LocalTime.parse(time)));
         List<String> donatedCategories = new ArrayList<>();
         for (Long id:categories) {
             donatedCategories.add(categoryRepository.findOne(id).getName());
@@ -214,15 +214,25 @@ public class UserController {
 
     @RequestMapping(path = "/donate", method = RequestMethod.GET)
     public String saveDonation(@SessionAttribute User user, @SessionAttribute List<Long> categories,
-                               @SessionAttribute Integer bags, @SessionAttribute Organization organization, HttpSession session) {
-        donationService.saveNewDonation(user, categories, bags, organization, LocalDateTime.now());
+                               @SessionAttribute Integer bags, @SessionAttribute Organization organization,
+                               @SessionAttribute LocalDateTime collected, HttpSession session) {
+        donationService.saveNewDonation(user, categories, bags, organization, LocalDateTime.now(), collected);
         session.removeAttribute("categories");
         session.removeAttribute("bags");
         session.removeAttribute("organization");
         session.removeAttribute("address");
         session.removeAttribute("datetime");
         session.removeAttribute("remarks");
+        session.removeAttribute("collected");
         return "redirect: /user/main";
+    }
+
+    @RequestMapping(path = "/collect/{donationId}")
+    public String archiveDonation(@PathVariable Long donationId) {
+        Donation toBeArchived = donationService.getDonation(donationId);
+        toBeArchived.setWasCollected(true);
+        donationService.saveDonation(toBeArchived);
+        return "redirect: /user/donations";
     }
 
     @RequestMapping(path = "/donations", method = RequestMethod.GET)

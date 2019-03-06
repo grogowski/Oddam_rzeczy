@@ -27,7 +27,11 @@ public class Donation {
     @Max(10)
     private Integer bags;
 
-    private LocalDateTime date;
+    private LocalDateTime created;
+
+    private LocalDateTime collected;
+
+    private Boolean wasCollected;
 
     public Long getId() {
         return id;
@@ -69,15 +73,35 @@ public class Donation {
         this.bags = bags;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setCreated(LocalDateTime date) {
+        this.created = date;
     }
 
-    public String getStringDate() {
-        return date.toLocalDate().toString();
+    public LocalDateTime getCollected() {
+        return collected;
+    }
+
+    public void setCollected(LocalDateTime collected) {
+        this.collected = collected;
+    }
+
+    public Boolean getWasCollected() {
+        return wasCollected;
+    }
+
+    public void setWasCollected(Boolean wasCollected) {
+        this.wasCollected = wasCollected;
+    }
+
+    public String getStringCreated() {
+        return created.toLocalDate().toString();
+    }
+
+    public String getStringCollected() {
+        return collected.toLocalDate().toString();
     }
 }

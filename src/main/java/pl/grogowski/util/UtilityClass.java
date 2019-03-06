@@ -16,7 +16,7 @@ public class UtilityClass {
         return street.trim()+", "+zip.trim()+" "+city.trim() + " tel. "+phone.trim();
     }
 
-    public static String merdeDateTime(String time, String date) {
+    public static String mergeDateTime(String time, String date) {
         return "Godzina "+ time.trim() + " dnia " + date.trim();
     }
 }
