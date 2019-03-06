@@ -55,9 +55,8 @@
         <div class="col-4"><p class="text-dark">wspartych organizacji</p></div>
         <div class="col-4"><p class="text-dark">zorganizowanych zbiórek</p></div>
     </div>
-    <div class="row justify-content-around">
-        <a href="/user/form1" class="btn btn-primary my-2">ODDAJ RZECZY</a>
-        <a href="" class="btn btn-primary my-2">ZORGANIZUJ ZBIÓRKĘ</a>
+    <div class="row">
+        <a href="/user/form1" class="btn btn-primary btn-block mx-2 my-2">ODDAJ RZECZY</a>
     </div>
 
 </div>

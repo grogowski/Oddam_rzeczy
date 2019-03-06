@@ -142,7 +142,7 @@ public class UserController {
             return "redirect: /user/form3a";
         }
         if (!name.isEmpty()) {
-            List<Organization> matchedByName = organizationService.getMatchingOrganizationsByName(name);
+            List<Organization> matchedByName = organizationService.getMatchingActiveOrganizationsByName(name);
             if (matchedByName!=null) {
                 model.addAttribute("organizations", matchedByName);
                 return "form3b";
@@ -169,7 +169,7 @@ public class UserController {
                 return "form3b";
             }
         }
-        model.addAttribute("organizations", organizationService.getOrganizations());
+        model.addAttribute("organizations", organizationService.getActiveOrganizations());
         return "form3b";
     }
 

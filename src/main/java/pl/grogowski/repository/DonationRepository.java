@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import pl.grogowski.model.Donation;
 import pl.grogowski.model.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface DonationRepository extends JpaRepository<Donation, Long> {

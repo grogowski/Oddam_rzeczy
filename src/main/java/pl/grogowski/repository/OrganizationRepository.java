@@ -10,6 +10,8 @@ import java.util.TreeSet;
 
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
 
+    List<Organization> findAllByActive(Boolean active);
+
     List<Organization> findAllByLocation_IdAndTarget_IdAndActive(Long locationId, Long targetId, Boolean active);
 
     List<Organization> findAllByLocation_IdAndActive(Long locationId, Boolean active);

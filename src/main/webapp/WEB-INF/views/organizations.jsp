@@ -32,7 +32,10 @@
                     <td>${organization.address}</td>
                     <td>${organization.location.name}</td>
                     <td>${organization.target.name}</td>
-                    <td>${organization.active}</td>
+                    <td>
+                        <c:if test="${organization.active == true}">Tak</c:if>
+                        <c:if test="${organization.active == false}">Nie</c:if>
+                    </td>
                     <td>
                         <a href="/admin/deactivate_organization/${organization.id}" class="${organization.active == true ? 'btn btn-primary m-1' : 'd-none'}">Dezaktywuj</a>
                         <a href="/admin/activate_organization/${organization.id}" class="${organization.active == false ? 'btn btn-primary m-1' : 'd-none'}">Aktywuj</a>

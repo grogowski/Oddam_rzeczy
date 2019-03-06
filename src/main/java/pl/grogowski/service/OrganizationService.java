@@ -19,8 +19,8 @@ public class OrganizationService {
         return new ArrayList<>(organizationRepository.queryGetLocationsOfActiveOrganizations());
     }
 
-    public List<Organization> getMatchingOrganizationsByName(String name) {
-        List<Organization> all = organizationRepository.findAll();
+    public List<Organization> getMatchingActiveOrganizationsByName(String name) {
+        List<Organization> all = organizationRepository.findAllByActive(true);
         List<Organization> matching = new ArrayList<>();
         name = name.trim().toLowerCase();
         for (Organization o : all) {
@@ -47,8 +47,12 @@ public class OrganizationService {
         return organizationRepository.findAllByTarget_IdAndActive(targetId, true);
     }
 
-    public List<Organization> getOrganizations() {
+    public Object getOrganizations() {
         return organizationRepository.findAll();
+    }
+
+    public List<Organization> getActiveOrganizations() {
+        return organizationRepository.findAllByActive(true);
     }
 
     public Organization getOrganizationById(Long id) {
@@ -65,4 +69,5 @@ public class OrganizationService {
     public void saveOrganization(Organization organization) {
         organizationRepository.save(organization);
     }
+
 }
