@@ -62,6 +62,7 @@
                     </label>
                 </div>
             </c:forEach>
+            <p class="text-danger">${selectMessage}</p>
             <input class="btn btn-primary btn-lg float-right float-md-left mt-3 px-5" type="submit" value="Dalej"/>
         </div>
     </form>

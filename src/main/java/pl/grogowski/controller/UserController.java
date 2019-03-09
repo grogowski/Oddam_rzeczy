@@ -110,9 +110,11 @@ public class UserController {
     }
 
     @RequestMapping(path = "/form1", method = RequestMethod.POST)
-    public String collectDataForm1(@RequestParam (required = false) List<Long> categories, HttpSession session) {
+    public String collectDataForm1(@RequestParam (required = false) List<Long> categories, HttpSession session, Model model) {
         if (categories==null) {
-            return "redirect: /user/form1";
+            model.addAttribute("selectMessage", "Zaznacz minimum jedną kategorię darów, które chcesz przekazać na cele dobroczynne.");
+            model.addAttribute("categories", categoryRepository.findAll());
+            return "form1";
         }
         session.setAttribute("categories", categories);
         return "form2";
@@ -137,44 +139,45 @@ public class UserController {
     }
 
     @RequestMapping(path = "/form3a", method = RequestMethod.POST)
-    public String collectDataForm3a( @RequestParam Long location, @RequestParam Long target, @RequestParam String name, Model model) {
-        if (location == 0 && target == 0 && name == null) {
-            return "redirect: /user/form3a";
-        }
+    public String collectDataForm3a( @RequestParam Long location, @RequestParam Long target, @RequestParam String name, HttpSession session) {
         if (!name.isEmpty()) {
             List<Organization> matchedByName = organizationService.getMatchingActiveOrganizationsByName(name);
             if (matchedByName!=null) {
-                model.addAttribute("organizations", matchedByName);
+                session.setAttribute("organizations", matchedByName);
                 return "form3b";
             }
         }
         if (location!=0&&target!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocationAndTarget(location, target);
             if (!matched.isEmpty()) {
-                model.addAttribute("organizations", matched);
+                session.setAttribute("organizations", matched);
                 return "form3b";
             }
         }
         if (location!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocation(location);
             if (!matched.isEmpty()) {
-                model.addAttribute("organizations", matched);
+                session.setAttribute("organizations", matched);
                 return "form3b";
             }
         }
         if (target!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByTarget(target);
             if (!matched.isEmpty()) {
-                model.addAttribute("organizations", matched);
+                session.setAttribute("organizations", matched);
                 return "form3b";
             }
         }
-        model.addAttribute("organizations", organizationService.getActiveOrganizations());
+        session.setAttribute("organizations", organizationService.getActiveOrganizations());
         return "form3b";
     }
 
     @RequestMapping(path = "/form3b", method = RequestMethod.POST)
-    public String collectDataForm3b(@RequestParam Long organization, HttpSession session) {
+    public String collectDataForm3b(@RequestParam (required = false) Long organization, HttpSession session, Model model) {
+        if (organization==null) {
+            model.addAttribute("organizationMessage", "Wybierz organizację, której chcesz przekazać dary");
+            return "form3b";
+        }
         session.setAttribute("organization", organizationService.getOrganizationById(organization));
         return "redirect: /user/form4";
     }

@@ -62,6 +62,7 @@
                     </label>
                 </div>
             </c:forEach>
+            <p class="text-danger">${organizationMessage}</p>
             <a href="/user/form3a" class="btn btn-secondary btn-lg float-left mt-3 px-5">Cofnij</a>
             <input class="btn btn-primary btn-lg float-right mt-3 px-5" type="submit" value="Dalej"/>
         </div>
