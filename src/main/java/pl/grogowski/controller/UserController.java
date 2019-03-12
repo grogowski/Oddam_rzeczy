@@ -10,6 +10,7 @@ import pl.grogowski.model.Organization;
 import pl.grogowski.model.User;
 import pl.grogowski.repository.CategoryRepository;
 import pl.grogowski.repository.TargetRepository;
+import pl.grogowski.service.CourierNoteService;
 import pl.grogowski.service.DonationService;
 import pl.grogowski.service.OrganizationService;
 import pl.grogowski.service.UserService;
@@ -35,6 +36,9 @@ public class UserController {
 
     @Autowired
     OrganizationService organizationService;
+
+    @Autowired
+    CourierNoteService courierNoteService;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -218,8 +222,10 @@ public class UserController {
     @RequestMapping(path = "/donate", method = RequestMethod.GET)
     public String saveDonation(@SessionAttribute User user, @SessionAttribute List<Long> categories,
                                @SessionAttribute Integer bags, @SessionAttribute Organization organization,
-                               @SessionAttribute LocalDateTime collected, HttpSession session) {
+                               @SessionAttribute LocalDateTime collected, @SessionAttribute String address,
+                               @SessionAttribute String remarks, HttpSession session) {
         donationService.saveNewDonation(user, categories, bags, organization, LocalDateTime.now(), collected);
+        courierNoteService.saveNewCourierNote(organization.getAddress(), address, collected, remarks);
         session.removeAttribute("categories");
         session.removeAttribute("bags");
         session.removeAttribute("organization");
