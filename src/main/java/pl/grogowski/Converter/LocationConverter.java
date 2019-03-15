@@ -14,6 +14,6 @@ public class LocationConverter implements Converter<String, Location> {
         if (s.isEmpty()) {
             return null;
         }
-        return locationRepository.findOne(Long.parseLong(s));
+        return locationRepository.getOne(Long.parseLong(s));
     }
 }

@@ -49,17 +49,17 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
     }
 
     public void takeAdmin(Long id) {
-        User user = userRepository.findOne(id);
+        User user = userRepository.customGetById(id);
         user.setAdmin(false);
         userRepository.save(user);
     }
 
     public boolean userIdAdmin(Long id) {
-        User user = userRepository.findOne(id);
+        User user = userRepository.customGetById(id);
         return user.getAdmin();
     }
 

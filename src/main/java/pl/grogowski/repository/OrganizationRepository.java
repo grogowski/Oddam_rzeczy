@@ -21,4 +21,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     @Query("select distinct o.location from Organization o where o.active = true")
     TreeSet<Location> queryGetLocationsOfActiveOrganizations();
 
+    @Query("SELECT o FROM Organization o WHERE o.id = ?1")
+    Organization customGetById(Long id);
+
 }

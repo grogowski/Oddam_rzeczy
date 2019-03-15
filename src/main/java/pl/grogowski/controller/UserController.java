@@ -3,6 +3,7 @@ package pl.grogowski.controller;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.grogowski.model.Donation;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
+@Transactional
 public class UserController {
 
     @Autowired
@@ -203,7 +205,7 @@ public class UserController {
             return  "form4";
         }
         if (!time.trim().matches("((0)?[8-9]|1[0-7]):[0-5][0-9]|18:00")) {
-            model.addAttribute("timeMessage", "Czas musi być w formacie 24h gg:mm, w przedziale 08:00-17:59");
+            model.addAttribute("timeMessage", "Czas musi być w formacie 24h gg:mm, w przedziale 08:00-18:00");
             return "form4";
         }
         session.setAttribute("address", UtilityClass.mergeAddress(street, city, zip, phone));
@@ -212,7 +214,7 @@ public class UserController {
         session.setAttribute("collected", LocalDateTime.of(LocalDate.parse(date), LocalTime.parse(time)));
         List<String> donatedCategories = new ArrayList<>();
         for (Long id:categories) {
-            donatedCategories.add(categoryRepository.findOne(id).getName());
+            donatedCategories.add(categoryRepository.customGetById(id).getName());
         }
         model.addAttribute("donatedCategories", donatedCategories);
         model.addAttribute("donated", UtilityClass.getTextBasedOnNumberOfBags(bags));

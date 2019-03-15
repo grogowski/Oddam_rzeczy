@@ -56,11 +56,11 @@ public class OrganizationService {
     }
 
     public Organization getOrganizationById(Long id) {
-        return organizationRepository.findOne(id);
+        return organizationRepository.customGetById(id);
     }
 
     public void changeOrganizationStatus(Long id, boolean newStatus) {
-        Organization organization = organizationRepository.findOne(id);
+        Organization organization = organizationRepository.customGetById(id);
         organization.setActive(newStatus);
         organizationRepository.save(organization);
 

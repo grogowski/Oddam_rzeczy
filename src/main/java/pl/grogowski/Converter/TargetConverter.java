@@ -14,6 +14,6 @@ public class TargetConverter implements Converter<String, Target> {
         if (s.isEmpty()) {
             return null;
         }
-        return targetRepository.findOne(Long.parseLong(s));
+        return targetRepository.getOne(Long.parseLong(s));
     }
 }

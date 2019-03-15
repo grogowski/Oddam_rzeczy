@@ -48,7 +48,7 @@ public class DonationService {
         newDonation.setCollected(collected);
         List<Category> categoryList = new ArrayList<>();
         for (Long l:categories) {
-            categoryList.add(categoryRepository.findOne(l));
+            categoryList.add(categoryRepository.customGetById(l));
         }
         newDonation.setCategories(categoryList);
         newDonation.setOrganization(organization);
@@ -69,7 +69,7 @@ public class DonationService {
     }
 
     public Donation getDonation(Long donationId) {
-        return donationRepository.findOne(donationId);
+        return donationRepository.customGetById(donationId);
     }
 
     public void saveDonation(Donation toBeArchived) {
