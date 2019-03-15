@@ -14,3 +14,4 @@ W projekcie znalazły zastosowanie następujące technologie/języki/frameworki/
 - JBCrypt
 - MySQL
 - JSP, JSTL
+- Lombok
