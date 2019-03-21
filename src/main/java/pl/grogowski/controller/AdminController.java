@@ -47,7 +47,7 @@ public class AdminController {
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String adminEdit() {
-        return "edit_admin";
+        return "admin_edit";
     }
 
     @RequestMapping(path = "/edit/password", method = RequestMethod.GET)
@@ -99,7 +99,7 @@ public class AdminController {
     @RequestMapping(path = "/admins", method = RequestMethod.GET)
     public String adminsPage(@SessionAttribute User user, Model model) {
         model.addAttribute("admins", userService.getAdmins(user));
-        return "admins";
+        return "admin_admins";
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
@@ -122,13 +122,13 @@ public class AdminController {
     @RequestMapping(path = "/users", method = RequestMethod.GET)
     public String usersPage(Model model) {
         model.addAttribute("users", userService.getUsers());
-        return "users";
+        return "admin_users";
     }
 
     @RequestMapping(path = "/organizations", method = RequestMethod.GET)
     public String organizationsPage(Model model) {
         model.addAttribute("organizations", organizationService.getOrganizations() );
-        return "organizations";
+        return "admin_organizations";
     }
 
     @RequestMapping(path = "/deactivate_organization/{id}", method = RequestMethod.GET)
@@ -148,13 +148,13 @@ public class AdminController {
         model.addAttribute("organization", new Organization());
         model.addAttribute("targets", targetRepository.findAll());
         model.addAttribute("locations", locationRepository.findAll());
-        return "new_organization_form";
+        return "admin_new_organization";
     }
 
     @RequestMapping(path = "/new_organization", method = RequestMethod.POST)
     public String saveOrganization(@Valid Organization organization, BindingResult result) {
         if (result.hasErrors()) {
-            return "new_organization_form";
+            return "admin_new_organization";
         }
         organizationService.saveOrganization(organization);
         return "redirect: /admin/organizations";
@@ -165,13 +165,13 @@ public class AdminController {
         model.addAttribute("organization", organizationService.getOrganizationById(id));
         model.addAttribute("targets", targetRepository.findAll());
         model.addAttribute("locations", locationRepository.findAll());
-        return "edit_organization_form";
+        return "admin_edit_organization";
     }
 
     @RequestMapping(path = "/edit_organization/{id}", method = RequestMethod.POST)
     public String saveEditedOrganization(@Valid Organization organization, BindingResult result) {
         if (result.hasErrors()) {
-            return "edit_organization_form";
+            return "admin_edit_organization";
         }
         organizationService.saveOrganization(organization);
         return "redirect: /admin/organizations";

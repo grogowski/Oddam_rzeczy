@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<nav th:fragment="user_nav" id="main-nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
+<nav th:fragment="user_nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
     <div class="container">
         <a href="#" class="navbar-brand" th:text="'Witaj '+${session.user.firstName}">Witaj User</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -19,6 +19,24 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user/logout">Wyloguj</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav th:fragment="admin_nav" class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
+    <div class="container">
+        <a href="/admin/main" class="navbar-brand">Panel Admina</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/main">Strona główna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/logout">Wyloguj</a>
                 </li>
             </ul>
         </div>

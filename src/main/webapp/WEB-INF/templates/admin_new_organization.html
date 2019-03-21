@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Oddam rzeczy</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
+</head>
+<body id="home">
+<nav th:replace="logged_in_nav.html :: admin_nav"></nav>
+<div id="form-section" class="container my-5 pt-5">
+    <form th:object="${organization}" method="post" action="/admin/new_organization">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="name">Pełna nazwa</label>
+                <input th:field="*{name}" type="text" id="name" class="form-control"
+                            placeholder="np. Fundacja Dzieciom 'Zdążyć z pomocą' w Warszawie"/>
+                <p th:errors="*{name}" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+                <label for="name">Adres</label>
+                <input th:field="*{address}" type="text" id="address" class="form-control"
+                            placeholder="np. ul. Pańska 98 lok. 201 00-837 Warszawa"/>
+                <p th:errors="*{address}" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+                <label for="location">Lokalizacja (województwo)</label>
+                <select th:field="*{location}" id="location" class="form-control">
+                    <option th:value="''" th:text="'--- Wybierz województwo ---'"/>
+                    <option th:each="location:${locations}" th:text="${location.name}" th:value="${location.id}"/>
+                </select>
+                <p th:errors="*{location}" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+                <label for="target">Cel pomocy</label>
+                <select th:field="*{target}" id="target" class="form-control">
+                    <option th:value="''" th:text="'--- Wybierz komu pomaga organizacja ---'"/>
+                    <option th:each="target:${targets}" th:text="${target.name}" th:value="${target.id}"/>
+                </select>
+                    <p th:errors="*{target}" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" th:field="*{active}"/>
+                <span>aktywna</span>
+            </div>
+            <input class="btn btn-primary btn-block" type="submit" value="Dodaj organizację"/>
+        </div>
+    </form>
+</div>
+</div>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+</html>
