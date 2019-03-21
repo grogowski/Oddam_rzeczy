@@ -1,12 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Oddam rzeczy - Logowanie</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/login.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
 </head>
 <body>
 <div class="container">
@@ -17,13 +17,13 @@
                     <h5 class="card-title text-center">Logowanie</h5>
                     <form class="form-signin" method="post" action="/login">
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" name="email" class="form-control" required autofocus>
+                            <input type="email" id="inputEmail" name="email" class="form-control" required="required" autofocus="autofocus"/>
                             <label for="inputEmail">Adres e-mail</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" name="password" class="form-control" required>
-                            <p class="error">${errorText}</p>
+                            <input type="password" id="inputPassword" name="password" class="form-control" required="required">
+                            <p class="error" th:text="${errorText}"></p>
                             <label for="inputPassword">Hasło</label>
                         </div>
                         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Zaloguj"/>

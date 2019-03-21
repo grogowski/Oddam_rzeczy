@@ -58,7 +58,7 @@ public class UserController {
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String userEdit() {
-        return "edit_user";
+        return "user_edit";
     }
 
     @RequestMapping(path = "/edit/password", method = RequestMethod.GET)
@@ -112,7 +112,7 @@ public class UserController {
     @RequestMapping(path = "/form1", method = RequestMethod.GET)
     public String showForm1(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
-        return "form1";
+        return "user_form1";
     }
 
     @RequestMapping(path = "/form1", method = RequestMethod.POST)
@@ -120,15 +120,15 @@ public class UserController {
         if (categories==null) {
             model.addAttribute("selectMessage", "Zaznacz minimum jedną kategorię darów, które chcesz przekazać na cele dobroczynne.");
             model.addAttribute("categories", categoryRepository.findAll());
-            return "form1";
+            return "user_form1";
         }
         session.setAttribute("categories", categories);
-        return "form2";
+        return "user_form2";
     }
 
     @RequestMapping(path = "/form2", method = RequestMethod.GET)
     public String showForm2() {
-        return "form2";
+        return "user_form2";
     }
 
     @RequestMapping(path = "/form2", method = RequestMethod.POST)
@@ -141,7 +141,7 @@ public class UserController {
     public String showForm3a(Model model) {
         model.addAttribute("locations", organizationService.getLocationsOfActiveOrganizations());
         model.addAttribute("targets", targetRepository.findAll());
-        return "form3a";
+        return "user_form3a";
     }
 
     @RequestMapping(path = "/form3a", method = RequestMethod.POST)
@@ -150,39 +150,39 @@ public class UserController {
             List<Organization> matchedByName = organizationService.getMatchingActiveOrganizationsByName(name);
             if (matchedByName!=null) {
                 session.setAttribute("organizations", matchedByName);
-                return "form3b";
+                return "user_form3b";
             }
         }
         if (location!=0&&target!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocationAndTarget(location, target);
             if (!matched.isEmpty()) {
                 session.setAttribute("organizations", matched);
-                return "form3b";
+                return "user_form3b";
             }
         }
         if (location!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByLocation(location);
             if (!matched.isEmpty()) {
                 session.setAttribute("organizations", matched);
-                return "form3b";
+                return "user_form3b";
             }
         }
         if (target!=0) {
             List<Organization> matched = organizationService.getMatchingOrganizationsByTarget(target);
             if (!matched.isEmpty()) {
                 session.setAttribute("organizations", matched);
-                return "form3b";
+                return "user_form3b";
             }
         }
         session.setAttribute("organizations", organizationService.getActiveOrganizations());
-        return "form3b";
+        return "user_form3b";
     }
 
     @RequestMapping(path = "/form3b", method = RequestMethod.POST)
     public String collectDataForm3b(@RequestParam (required = false) Long organization, HttpSession session, Model model) {
         if (organization==null) {
             model.addAttribute("organizationMessage", "Wybierz organizację, której chcesz przekazać dary");
-            return "form3b";
+            return "user_form3b";
         }
         session.setAttribute("organization", organizationService.getOrganizationById(organization));
         return "redirect: /user/form4";
@@ -190,7 +190,7 @@ public class UserController {
 
     @RequestMapping(path = "/form4", method = RequestMethod.GET)
     public String showForm4() {
-        return "form4";
+        return "user_form4";
     }
 
     @RequestMapping(path = "/form4", method = RequestMethod.POST)
@@ -202,11 +202,11 @@ public class UserController {
                                    @RequestParam String time) {
         if (LocalDate.parse(date).minusDays(2).isBefore(LocalDate.now())||LocalDate.parse(date).getDayOfWeek().equals(DayOfWeek.SUNDAY)||LocalDate.parse(date).getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
             model.addAttribute("dateMessage", "Data odebrania musi być dniem roboczym, minimum 2 dni od daty bieżącej");
-            return  "form4";
+            return  "user_form4";
         }
         if (!time.trim().matches("((0)?[8-9]|1[0-7]):[0-5][0-9]|18:00")) {
             model.addAttribute("timeMessage", "Czas musi być w formacie 24h gg:mm, w przedziale 08:00-18:00");
-            return "form4";
+            return "user_form4";
         }
         session.setAttribute("address", UtilityClass.mergeAddress(street, city, zip, phone));
         session.setAttribute("datetime", UtilityClass.mergeDateTime(time, date));
@@ -218,7 +218,7 @@ public class UserController {
         }
         model.addAttribute("donatedCategories", donatedCategories);
         model.addAttribute("donated", UtilityClass.getTextBasedOnNumberOfBags(bags));
-        return "donation_summary";
+        return "user_donation_summary";
     }
 
     @RequestMapping(path = "/donate", method = RequestMethod.GET)
@@ -249,7 +249,7 @@ public class UserController {
     @RequestMapping(path = "/donations", method = RequestMethod.GET)
     public String showUserDonations(@SessionAttribute User user, Model model) {
         model.addAttribute("donations", donationService.getUserDonations(user));
-        return "donations";
+        return "user_donations";
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)

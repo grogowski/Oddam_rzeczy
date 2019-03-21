@@ -1,18 +1,16 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html lang="pl">
-
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Oddam rzeczy</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
     <link rel="stylesheet" href="/css/form.css"/>
 </head>
 <body id="home">
-<jsp:include page="logged_in_nav.jsp"/>
+<nav th:replace="logged_in_nav.html :: user_nav"></nav>
 <div id="section1" class="container ml-1 text-center">
     <div class="row mt-5 mb-3">
         <div class="col-3">
@@ -61,7 +59,7 @@
                   Ulica:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="street" required>
+                <input type="text" class="form-control" name="street" required="required"/>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -69,7 +67,7 @@
                   Miasto:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="city" required>
+                <input type="text" class="form-control" name="city" required="required"/>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -77,7 +75,7 @@
                   Kod pocztowy:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="zip" required>
+                <input type="text" class="form-control" name="zip" required="required"/>
             </div>
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
@@ -85,7 +83,7 @@
                   Telefon:
                 </span>
                 </div>
-                <input type="text" class="form-control" name="phone" required>
+                <input type="text" class="form-control" name="phone" required="required"/>
             </div>
         </div>
         <h5>Termin odbioru</h5>
@@ -95,8 +93,8 @@
                   Data:
                 </span>
             </div>
-            <input type="date" class="form-control" name="date" required>
-            <p class="text-danger">${dateMessage}</p>
+            <input type="date" class="form-control" name="date" required="required"/>
+            <p class="text-danger" th:text="${dateMessage}"></p>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">
@@ -104,8 +102,8 @@
                   Godzina:
                 </span>
             </div>
-            <input type="text" class="form-control" name="time" required>
-            <p class="text-danger">${timeMessage}</p>
+            <input type="text" class="form-control" name="time" required="required"/>
+            <p class="text-danger" th:text="${timeMessage}"></p>
         </div>
         <div class="input-group mb-1">
             <div class="input-group-prepend">
@@ -113,7 +111,7 @@
                   Uwagi dla kuriera:
                 </span>
             </div>
-            <input type="text" class="form-control" name="remarks">
+            <input type="text" class="form-control" name="remarks"/>
         </div>
         <a href="/user/form3a" class="btn btn-secondary btn-lg float-left mt-3 px-5">Cofnij</a>
         <input class="btn btn-primary btn-lg float-right my-3 px-5" type="submit" value="Dalej"/>
@@ -122,9 +120,6 @@
 
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
