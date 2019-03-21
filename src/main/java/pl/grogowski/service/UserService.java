@@ -63,4 +63,9 @@ public class UserService {
         return user.getAdmin();
     }
 
+    public void giveAdmin(Long id) {
+        User user = userRepository.customGetById(id);
+        user.setAdmin(true);
+        userRepository.save(user);
+    }
 }

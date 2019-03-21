@@ -15,6 +15,9 @@
         <table class="table">
             <thead class="thead-light">
             <tr>
+                <th colspan="4" class="text-center">Użytkownicy</th>
+            </tr>
+            <tr>
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Email</th>
@@ -26,7 +29,10 @@
                     <td th:text="${user.firstName}"></td>
                     <td th:text="${user.lastName}"></td>
                     <td th:text="${user.email}"></td>
-                    <td><a th:href="@{/admin/delete/}+${user.id}" class="btn btn-primary m-1">Usuń</a></td>
+                    <td>
+                        <a th:href="@{/admin/delete/}+${user.id}" class="btn btn-primary m-1">Usuń</a>
+                        <a th:href="@{/admin/give_admin_privileges/}+${user.id}" class="btn btn-primary m-1">Nadaj admina</a>
+                    </td>
                 </tr>
             </tbody>
         </table>

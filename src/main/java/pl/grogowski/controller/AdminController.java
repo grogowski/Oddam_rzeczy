@@ -119,6 +119,12 @@ public class AdminController {
         return "redirect: /admin/admins";
     }
 
+    @RequestMapping(path = "/give_admin_privileges/{id}", method = RequestMethod.GET)
+    public String giveAdmin(@PathVariable Long id) {
+        userService.giveAdmin(id);
+        return "redirect: /admin/users";
+    }
+
     @RequestMapping(path = "/users", method = RequestMethod.GET)
     public String usersPage(Model model) {
         model.addAttribute("users", userService.getUsers());
