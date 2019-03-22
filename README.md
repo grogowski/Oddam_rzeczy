@@ -13,5 +13,5 @@ W projekcie znalazły zastosowanie następujące technologie/języki/frameworki/
 - Hibernate
 - JBCrypt
 - MySQL
-- JSP, JSTL
+- Thymeleaf
 - Lombok
